@@ -1,0 +1,193 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Classify_Email" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:njl="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:um="clr-namespace:UiPath.MLServices;assembly=UiPath.MLServices" xmlns:uma="clr-namespace:UiPath.MLServices.Activities;assembly=UiPath.MLServices.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="out_confidence" Type="OutArgument(x:Double)" />
+    <x:Property Name="out_classification" Type="OutArgument(x:String)" />
+    <x:Property Name="in_review" Type="InArgument(x:String)" />
+    <x:Property Name="in_MLSkillEndpoint" Type="InArgument(x:String)" />
+    <x:Property Name="in_MLSkillApiKey" Type="InArgument(x:String)" />
+    <x:Property Name="io_reviewsDT" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="in_counter" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1073,1565</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Classify_Email_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="68">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Collections.Specialized</x:String>
+      <x:String>System.ComponentModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Dynamic</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>UiPath.MLServices</x:String>
+      <x:String>UiPath.MLServices.Activities</x:String>
+      <x:String>UiPath.MLServices.Enums</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Web.Activities</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="72">
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic.Core</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Private.Xml</AssemblyReference>
+      <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.MLServices</AssemblyReference>
+      <AssemblyReference>UiPath.MLServices.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Persistence.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="Classify_Email" sap:VirtualizedContainerService.HintSize="515,1500" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="473,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Classifying review: &quot; + in_review]" />
+    <Sequence DisplayName="Format Email Body" sap:VirtualizedContainerService.HintSize="473,152" sap2010:WorkflowViewState.IdRef="Sequence_2">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[in_review]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[in_review.Replace(",","").replace(Environment.NewLine, "").Replace(chr(34), "")]</InArgument>
+        </Assign.Value>
+      </Assign>
+    </Sequence>
+    <Sequence DisplayName="Parse ML Output" sap:VirtualizedContainerService.HintSize="473,1085" sap2010:WorkflowViewState.IdRef="Sequence_3">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:String" Name="strResponse" />
+        <Variable x:TypeArguments="njl:JObject" Name="jsonDict" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <uma:MLSkills ContinueOnError="{x:Null}" DelayAfter="{x:Null}" DelayBefore="{x:Null}" Name="{x:Null}" NumberOfRetries="{x:Null}" ResponseHeaders="{x:Null}" Result="{x:Null}" SelectedMLSkill="{x:Null}" StatusCode="{x:Null}" TimeOutMs="{x:Null}" ApiKey="[in_MLSkillApiKey]" Connection="Endpoint" DisplayName="MLSkill" ExternApiFileType="JSON" sap:VirtualizedContainerService.HintSize="431,391" sap2010:WorkflowViewState.IdRef="MLSkills_2" Item="[in_review]" JsonResponse="[strResponse]" NextPageNum="2" RefreshList="False" SkillURL="[in_MLSkillEndpoint]" TotalCount="4">
+        <uma:MLSkills.MLSkillList>
+          <scg:List x:TypeArguments="um:MLSkill" Capacity="4">
+            <um:MLSkill AccessUri="https://ai-stg-uipath.deskover.com/mlskills/8631c939-66cd-42c2-b886-39aa98dcb920/b8752381-0d68-4c0a-9cab-d848294216e6/email-faq-skill" AccountId="8631c939-66cd-42c2-b886-39aa98dcb920" Description="" Id="9151ccb8-39b9-482a-87fa-074ac79bea6d" InputDescription="JSON with one string, called &quot;reference&quot; and one list of strings, called, &quot;candidates&quot;. This means that multiple reference &quot;sentences&quot; are not accepted. &quot;Candidates&quot; is a list of candidate sentences.&#xA;&#xA;{&quot;reference&quot; : string, &quot;candidates&quot; : [strings]}" InputType="JSON" Name="Email_Faq_skill" OutputDescription="JSON with reference and most similar candidates, and the associated score on that similarity (between 0-1) ordered in descending order of score" ProjectId="08ce9e1e-e15f-40ab-aca4-867454377bb0" TenantId="b8752381-0d68-4c0a-9cab-d848294216e6" />
+            <um:MLSkill AccessUri="https://ai-stg-uipath.deskover.com/mlskills/8631c939-66cd-42c2-b886-39aa98dcb920/b8752381-0d68-4c0a-9cab-d848294216e6/objectdetection" AccountId="8631c939-66cd-42c2-b886-39aa98dcb920" Description="" Id="0d7405be-1ca5-4f77-88db-3e8aff30a71f" InputDescription="Path to the image to be analyzed." InputType="FILE" Name="ObjectDetection" OutputDescription="JSON with identified object’s class byte array representation (allows you to see box around objects), identified object’s class - name, score (between 0-1)&#xA;Example:&#xA;{&#xA;  &quot;Predicted ByteArray&quot;:&#xA;    &quot;/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgI…TD&quot;,&#xA;  &quot;Predicted Class&quot;:&#xA;     &quot;[{'class': 'book', 'score': ' 0.31'}, {'class': 'dog', 'score': ' 0.53'}, {'class': 'chair', 'score': ' 0.79'}]&quot;&#xA;}" ProjectId="6e873150-da09-4c81-971d-5adf70484d8c" TenantId="b8752381-0d68-4c0a-9cab-d848294216e6" />
+            <um:MLSkill AccessUri="https://ai-stg-uipath.deskover.com/mlskills/8631c939-66cd-42c2-b886-39aa98dcb920/b8752381-0d68-4c0a-9cab-d848294216e6/productlifecycle" AccountId="8631c939-66cd-42c2-b886-39aa98dcb920" Description="Manufacturing App" Id="af789f9b-26ec-4497-af7d-ce235f635f60" InputDescription="" InputType="JSON" Name="ProductLifecycle" OutputDescription="" ProjectId="91e57e62-3858-482c-9a65-9186b7bd0ff8" TenantId="b8752381-0d68-4c0a-9cab-d848294216e6" />
+            <um:MLSkill AccessUri="https://ai-stg-uipath.deskover.com/mlskills/8631c939-66cd-42c2-b886-39aa98dcb920/b8752381-0d68-4c0a-9cab-d848294216e6/sentimentanalysis" AccountId="8631c939-66cd-42c2-b886-39aa98dcb920" Description="" Id="6f257a60-6946-4376-8677-3b14af04a807" InputDescription="Text to be analyzed. For example: &quot;I am dissatisfied with this service.&quot;" InputType="JSON" Name="SentimentAnalysis" OutputDescription="JSON with class name and confidence on that class prediction (between 0-1).&#xA;Class prediction can be one of: &quot;Very Negative&quot;, &quot;Negative&quot;, &quot;Neutral&quot;, &quot;Positive&quot;, &quot;Very Positive&quot;&#xA;For example:  '{&quot;sentiment&quot;: &quot;Very Negative&quot;, &quot;confidence&quot;: 0.97}'" ProjectId="d7762bb8-a39b-4a21-b1a3-666f49d0f570" TenantId="b8752381-0d68-4c0a-9cab-d848294216e6" />
+          </scg:List>
+        </uma:MLSkills.MLSkillList>
+      </uma:MLSkills>
+      <ui:DeserializeJson x:TypeArguments="njl:JObject" DisplayName="Deserialize JSON" sap:VirtualizedContainerService.HintSize="431,60" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_1" JsonObject="[jsonDict]" JsonString="[strResponse]" />
+      <Assign sap:VirtualizedContainerService.HintSize="431,60" sap2010:WorkflowViewState.IdRef="Assign_4">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:Double">[out_confidence]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:Double">[Convert.ToDouble(jsonDict("confidence"))]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <Assign sap:VirtualizedContainerService.HintSize="431,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+        <Assign.To>
+          <OutArgument x:TypeArguments="x:String">[out_classification]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="x:String">[jsonDict("prediction").ToString]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="431,131" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+        <ui:MultipleAssign.AssignOperations>
+          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_1">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:Object">[io_reviewsDT(in_counter - 1)("Classification")]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:Object">[out_classification]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_2">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:Object">[io_reviewsDT(in_counter - 1)("Confidence")]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:Object">[out_confidence.ToString("F2")]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+          </scg:List>
+        </ui:MultipleAssign.AssignOperations>
+      </ui:MultipleAssign>
+      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="431,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Classification: &quot; + out_classification + &quot;; Confidence: &quot; + out_confidence.ToString(&quot;F2&quot;)]" />
+    </Sequence>
+  </Sequence>
+</Activity>
